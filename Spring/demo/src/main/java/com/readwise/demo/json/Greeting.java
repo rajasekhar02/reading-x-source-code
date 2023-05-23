@@ -3,6 +3,10 @@ package com.readwise.demo.json;
 public class Greeting {
     private final String message;
 
+    private Greeting() {
+        this.message = "";
+    }
+
     public Greeting(String message) {
         this.message = message;
     }
