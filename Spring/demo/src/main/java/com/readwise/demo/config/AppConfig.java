@@ -11,4 +11,9 @@ public class AppConfig {
     public Greeting defaultGreeting() {
         return new Greeting("Hello, World");
     }
+
+    @Bean
+    public Greeting whatsupGreeting() {
+        return new Greeting("whats up");
+    }
 }
