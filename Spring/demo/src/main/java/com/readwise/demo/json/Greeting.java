@@ -3,7 +3,7 @@ package com.readwise.demo.json;
 public class Greeting {
     private final String message;
 
-    private Greeting() {
+    public Greeting() {
         this.message = "";
     }
 
