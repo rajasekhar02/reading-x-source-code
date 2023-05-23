@@ -1,5 +1,8 @@
 package com.readwise.demo.json;
 
+// import org.springframework.stereotype.Component;
+
+// @Component
 public class Greeting {
     private final String message;
 

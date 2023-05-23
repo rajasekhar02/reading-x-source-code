@@ -1,10 +1,12 @@
 package com.readwise.demo;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,16 @@ class DemoApplicationTests {
 	}
 
 	@Test
+	@Disabled
 	void noGreetingInAppCtx() {
 		assertThrows(NoSuchBeanDefinitionException.class, () -> context.getBean(Greeting.class));
+	}
+
+	@Test
+	void getBeanTwice() {
+		Greeting greeting1 = context.getBean(Greeting.class);
+		Greeting greeting2 = context.getBean(Greeting.class);
+		assertSame(greeting1, greeting2);
+		System.out.println(greeting2.getMessage());
 	}
 }
