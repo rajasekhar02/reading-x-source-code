@@ -9,19 +9,39 @@ var differenceOfDistinctValues = function (grid) {
 
     let m = grid.length;
     let n = grid[0].length;
-    for (let row = 0; row < m; row++) {
-        for (let col = 0; col < n; col++) {
-            let countDistinctInTopLeft = new Set();
-            for (let tlIR = row - 1, tlIC = col - 1; tlIR >= 0 && tlIC >= 0; tlIR--, tlIC--) {
-                countDistinctInTopLeft.add(grid[tlIR][tlIC]);
-            }
-            let countDistinctInBottomRight = new Set();
-            for (let tlIR = row + 1, tlIC = col + 1; tlIR < m && tlIC < n; tlIR++, tlIC++) {
-                // console.log(tlIR,tlIC)
-                countDistinctInBottomRight.add(grid[tlIR][tlIC]);
-            }
-            ans[row][col] = Math.abs(countDistinctInTopLeft.size - countDistinctInBottomRight.size)
+    let commonFunc = function (row, col) {
+        let countDistinctInTopLeft = new Set();
+        let tlIR = row;
+        let tlIC = col;
+        for (; tlIR < m && tlIC < n; tlIR++, tlIC++) {
+            ans[tlIR][tlIC] = countDistinctInTopLeft.size
+            countDistinctInTopLeft.add(grid[tlIR][tlIC]);
         }
+        let countDistinctInBottomRight = new Set();
+        // let parity = Math.abs(m - n) > 0 ? row : -row;
+        tlIR--;
+        tlIC--;
+        for (;
+            (tlIR >= 0 && tlIC >= 0);
+            tlIR--, tlIC--) {
+            ans[tlIR][tlIC] = Math.abs(ans[tlIR][tlIC] - countDistinctInBottomRight.size)
+            countDistinctInBottomRight.add(grid[tlIR][tlIC]);
+        }
+    }
+    for (let row = 0; row < m; row++) {
+        let col = 0
+        commonFunc(row, col)
+    }
+    for (let col = 1; col < n; col++) {
+        let row = 0
+        commonFunc(row, col)
     }
     return ans;
 };
+
+
+[
+    [[1, 2, 3], [3, 1, 5], [3, 2, 1]],
+    [[1, 2], [3, 1], [3, 2]],
+    [[1, 2, 3], [3, 1, 2]]
+].map(testcase => console.log(differenceOfDistinctValues(testcase)));
