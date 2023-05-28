@@ -2,6 +2,12 @@
  * @param {number[][]} grid
  * @return {number[][]}
  */
+/**
+ * Test cases involved are:
+ * 1. 4x9
+ * 2. 9x4
+ * 3. 9x9
+ */
 var differenceOfDistinctValues = function (grid) {
     let ans = new Array(grid.length).fill(0).map(() => {
         return new Array(grid[0].length).fill(0);
