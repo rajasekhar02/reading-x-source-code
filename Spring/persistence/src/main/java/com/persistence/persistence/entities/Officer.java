@@ -1,7 +1,15 @@
 package com.persistence.persistence.entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "officers")
 public class Officer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
     private Rank rank;
     private String firstName;
     private String lastName;
