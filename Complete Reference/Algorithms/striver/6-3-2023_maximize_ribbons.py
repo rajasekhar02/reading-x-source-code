@@ -15,7 +15,7 @@ def solution(a, k):
             min_piece_length = piece_length
         else:
             max_piece_length = piece_length - 1
-    return piece_length
+    return min_piece_length
 
 
 print(solution([4, 8, 4, 5, 3, 7, 1, 2, 6], 5))
