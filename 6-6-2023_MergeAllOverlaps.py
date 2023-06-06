@@ -18,9 +18,8 @@ def mergeOverlappingIntervals(arr: List[List[int]]) -> List[List[int]]:
             arr[currMergeList][0] = c
             arr[currMergeList][1] = d
             continue
-        if c < b:
-            if d > b:
-                arr[currMergeList][1] = d
+        if d > b:
+            arr[currMergeList][1] = d
     return arr[: currMergeList + 1]
 
 
