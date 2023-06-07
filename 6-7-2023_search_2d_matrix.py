@@ -18,17 +18,14 @@ class Solution:
                 rowLow = rowMid + 1
             elif matrix[rowMid][columnStart] > target:
                 rowHigh = rowMid
-            #  Bug 1: This Bugs leads to infinite loop because of element doesnot exist
-            #          🔽
-            elif (
-                matrix[rowMid][columnStart] == target
-                or matrix[rowMid][columnEnd] == target
-            ):
-                return True
+            else:
+                break
+        if matrix[rowMid][columnStart] == target or matrix[rowMid][columnEnd] == target:
+            return True
 
+        print(rowMid)
         colLow = 0
-
-        colHigh = rows - 1
+        colHigh = cols
         colMid = 0
         while colLow < colHigh:
             colMid = colLow + ((colHigh - colLow) >> 1)
