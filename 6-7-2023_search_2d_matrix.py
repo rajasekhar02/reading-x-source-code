@@ -5,25 +5,29 @@ class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         rows = len(matrix)
         cols = len(matrix[0])
-        # binary search over rows
-        # to find the suitable row
+
         rowLow = 0
-        rowHigh = rows - 1
+        rowHigh = rows
         rowMid = 0
-        column = 0
+        columnStart = 0
+        columnEnd = cols - 1
+
         while rowLow < rowHigh:
             rowMid = rowLow + ((rowHigh - rowLow) >> 1)
-            #   Bug 1: should not treat equal and less than elements as same won't work when there is only row
-            #   Bug 2: I am not checking with first and last elements of a row
-            #                         🔽
-            if matrix[rowMid][column] <= target:
+            if matrix[rowMid][columnEnd] < target:
                 rowLow = rowMid + 1
-            elif matrix[rowMid][column] > target:
+            elif matrix[rowMid][columnStart] > target:
                 rowHigh = rowMid
+            #  Bug 1: This Bugs leads to infinite loop because of element doesnot exist
+            #          🔽
+            elif (
+                matrix[rowMid][columnStart] == target
+                or matrix[rowMid][columnEnd] == target
+            ):
+                return True
 
         colLow = 0
-        #     Bug 3: should use cols instead of rows
-        #          🔽
+
         colHigh = rows - 1
         colMid = 0
         while colLow < colHigh:
