@@ -2,12 +2,10 @@ import math
 
 
 class Solution:
-    def __init__(self):
-        self.dp = [-1] * 32
-
     def myPow(self, x: float, n: int) -> float:
         if n == 1:
             return x
+
         if n == 0:
             return 1
 
@@ -16,18 +14,11 @@ class Solution:
             return 1 / self.myPow(x, n)
 
         if n & 1:
-            nthPower = round(math.log2((n - 1)))
-            if self.dp[nthPower] == -1:
-                mPow = self.myPow(x, (n - 1) >> 1)
-                self.dp[nthPower] = mPow * mPow * x
-            return self.dp[nthPower]
+            mPow = self.myPow(x, (n - 1) >> 1)
+            return mPow * mPow * x
 
-        nthPower = round(math.log2(n))
-        if self.dp[nthPower] == -1:
-            mPow = self.myPow(x, n >> 1)
-            self.dp[nthPower] = mPow * mPow
-
-        return self.dp[nthPower]
+        mPow = self.myPow(x, n >> 1)
+        return mPow * mPow
 
 
-print(Solution().myPow(2, 11))
+print(Solution().myPow(1.2, 1 << 6))
