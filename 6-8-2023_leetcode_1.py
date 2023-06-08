@@ -2,7 +2,24 @@ from typing import List
 
 
 class Solution:
+    # using two pointer method
     def twoSum(self, nums: List[int], target: int) -> List[int]:
+        newNums = [[i, id] for id, i in enumerate(nums)]
+        # Always forgetting to assign the output of sorted funtion to the list
+        newNums = sorted(newNums, key=lambda x: x[0])
+        i = 0
+        j = len(newNums) - 1
+        while i < j:
+            if newNums[i][0] + newNums[j][0] > target:
+                j -= 1
+            elif newNums[i][0] + newNums[j][0] < target:
+                i += 1
+            else:
+                return [newNums[i][1], newNums[j][1]]
+
+        return [0, 0]
+
+    def twoSum2(self, nums: List[int], target: int) -> List[int]:
         newNums = [[i, id] for id, i in enumerate(nums)]
         # Always forgetting to assign the output of sorted funtion to the list
         newNums = sorted(newNums, key=lambda x: x[0])
