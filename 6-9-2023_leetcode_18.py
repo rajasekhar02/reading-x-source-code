@@ -1,6 +1,12 @@
 from typing import List
 
 
+"""Important things Learned
+1. Using logic we can skip the duplicates
+2. Using twoSum we can solve the 4 four sum
+"""
+
+
 class Solution:
     def twoSum(self, nums, start, target, listStartSeq):
         i = start
