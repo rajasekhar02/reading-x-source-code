@@ -16,8 +16,15 @@ class Solution:
                 ans = [k for k in listStartSeq]
                 ans.append(nums[i])
                 ans.append(nums[j])
-                # i += 1
+                i += 1
                 j -= 1
+
+                # Using this logic we can skip duplicates
+                while i < size and nums[i] == nums[i - 1]:
+                    i += 1
+                while i < size and nums[j] == nums[j + 1]:
+                    j -= 1
+
                 listAns.append(ans)
         return listAns
 
@@ -26,15 +33,15 @@ class Solution:
         possibleSets = []
         visitedSets = set()
         for i in range(len(nums) - 3):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
             for j in range(i + 1, len(nums) - 2):
+                if j > (i + 1) and nums[j] == nums[j - 1]:
+                    continue
                 ans = self.twoSum(
                     nums, j + 1, target - (nums[i] + nums[j]), [nums[i], nums[j]]
                 )
                 for k in ans:
-                    strList = "_".join([str(h) for h in k])
-                    if strList in visitedSets:
-                        continue
-                    visitedSets.add(strList)
                     possibleSets.append(k)
         return possibleSets
 
