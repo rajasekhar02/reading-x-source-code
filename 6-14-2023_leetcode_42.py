@@ -3,31 +3,20 @@ from typing import List
 
 class Solution:
     def trap(self, height: List[int]) -> int:
-        prev_height = 0
-        prev_index = 0
-        desc_blocks_area = 0
-        asc_blocks_area = 0
-        area_occupied_by_blocks = 0
-        for i in range(0, len(height)):
-            curr_height = height[i]
-            if curr_height == 0:
-                continue
-            if prev_height == 0 and curr_height > 0:
-                prev_height = curr_height
-                prev_index = i
-            elif prev_height <= curr_height:
-                asc_blocks_area += (
-                    (i - prev_index - 1) * prev_height
-                ) - area_occupied_by_blocks
-                area_occupied_by_blocks = 0
-                desc_blocks_area = 0
-                prev_height = curr_height
-                prev_index = i
-            elif prev_height > curr_height:
-                if desc_blocks_area > 0:
-                    desc_blocks_area += curr_height - height[i - 1]
-                else:
-                    desc_blocks_area += (i - prev_index - 1) * curr_height
-                area_occupied_by_blocks += curr_height
-        print(asc_blocks_area)
-        return asc_blocks_area + desc_blocks_area
+        total_area = 0
+        for i in range(0, len(height) - 2):
+            right_max_height = height[i + 1]
+            right_max_height_index = i + 1
+            block_occupied = 0
+            for j in range(i + 2, len(height)):
+                if right_max_height < height[j]:
+                    right_max_height = height[j]
+                    right_max_height_index = j
+                block_occupied += height[j]
+            total_area = (right_max_height_index - i) * min(height[i], right_max_height)
+            i = right_max_height_index - 1
+        return total_area
+
+
+h = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
+print(Solution().trap(h))
