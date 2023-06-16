@@ -6,12 +6,10 @@ class Solution:
         if N == 0:
             return [0]
         lis = self.recur(arr, pos + 1, N - 1)
-        # this is code wont work because the
-        # as we are changing the lis in the for loop
-        # it will be infinite loop
+        sizeOfLis = len(lis)
         newList = lis
-        for i in lis:
-            newList.append(i + arr[pos])
+        for i in range(0, sizeOfLis):
+            newList.append(lis[i] + arr[pos])
         return newList
 
     def subsetSumsItr(self, arr, N):
