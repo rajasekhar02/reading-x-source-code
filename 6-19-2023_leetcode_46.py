@@ -1,8 +1,25 @@
 from typing import List
 
-
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
+        ans = []
+        nums = sorted(nums)
+        self.backtrack(0, nums, ans)
+        return ans
+
+    def backtrack(self, index, nums, ans):
+        if index == len(nums):
+            ans.append([*nums])
+            return
+        
+        for i in range(index, len(nums)):
+            # key logic to learn
+            nums[index], nums[i] = nums[i], nums[index]
+            self.backtrack(index+1, nums, ans)
+            nums[index], nums[i] = nums[i], nums[index]
+
+        
+    def permuteDFS(self, nums: List[int]) -> List[List[int]]:
         ans = []
         nums = sorted(nums)
         for i in range(0,len(nums)):
@@ -26,3 +43,6 @@ class Solution:
         if len(ans) == 0:
             return [[]]
         return ans
+
+nums = [1,2,3,4]
+print(Solution().permute(nums))
