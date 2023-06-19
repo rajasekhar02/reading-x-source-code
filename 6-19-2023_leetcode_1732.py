@@ -10,4 +10,4 @@ class Solution:
             if currHeight > maxHeight:
                 maxHeight = currHeight
             currHeight += gain[i]
-        return maxHeight
+        return max(currHeight, maxHeight)
