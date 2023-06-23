@@ -1,3 +1,8 @@
+"""Problem Statement
+    Given a array find all the possible summation of two numbers that are divible by k
+Returns:
+    int: count of all the possible summations
+"""
 from collections import defaultdict
 def solution(a, k):
     if len(a) == 1: return 0
