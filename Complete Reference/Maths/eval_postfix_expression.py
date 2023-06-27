@@ -1,5 +1,5 @@
 import math
-# Learnings: Modulo Arthimetic
+# Learnings: Modulo Arthimetic (source: GeekForGeeks)
 # Addition: ( a + b) % c = ( ( a % c ) + ( b % c ) ) % c
 # Multiplication: ( a * b) % c = ( ( a % c ) * ( b % c ) ) % c
 # Subtraction: ( a – b) % c = ( ( a % c ) – ( b % c ) ) % c
