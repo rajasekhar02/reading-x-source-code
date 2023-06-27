@@ -17,4 +17,4 @@ def recurse(arr, start, k, compVal):
             maxCount += count
     return maxVal, maxCount
 
-print(maximalAndSubsequences([3,13,20,36,9,38,18,14,6,13],4))
+print(maximalANDSubsequences([3,13,20,36,9,38,18,14,6,13],4))
