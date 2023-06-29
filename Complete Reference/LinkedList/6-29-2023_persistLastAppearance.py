@@ -46,7 +46,7 @@ def lastAppearanceSlowAndHardToImplement(head):
     
 def lastAppearance(head):
     # Using stack and set makes the implement easy
-    # Main Idea: Itetrating from End to the Start
+    # Main Idea: Iterating from End to the Start
     tempHead = head
     stack = []
     while tempHead != None:
