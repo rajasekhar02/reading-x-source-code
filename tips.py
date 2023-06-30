@@ -4,6 +4,11 @@ import timeit
 import hashlib
 import pickle
 import random
+import collections
+import heapq
+import math
+
+# -------------------------------------------------------------------------------------------
 # Usage of zip function
 seq1 = [1,23,4,5]
 seq2 = [1,2,3,4]
@@ -14,6 +19,7 @@ def do_something_with(*argv):
 for items in zip(seq1,seq2):
   do_something_with(*items)
 
+# -------------------------------------------------------------------------------------------
 # all Characters in one place
 print("string.ascii_letters")
 print(string.ascii_letters)
@@ -57,7 +63,7 @@ print(10. ** 100 * 10. ** 100) # Floating-point, approximate
 print(timeit.timeit('10**100 * 10**100'))
 print(timeit.timeit('10.**100 * 10.**100'))
 
-
+# -------------------------------------------------------------------------------------------
 
 # Function Tips
 
@@ -87,10 +93,7 @@ print(next(oracle))
 # But by providing the fallback value and doesn’t raise the exception.
 print(next(oracle,True))
 
-
-
-
-
+# -------------------------------------------------------------------------------------------
 # cache it
 
 source = 'https://lj-dev.livejournal.com/653177.html' 
@@ -125,4 +128,55 @@ except:
 name = 'Mary'
 print('Hello, ' + str(name) + ', how is your lamb?')
 print(f'Hello, {name}, how is your lamb?')
+# -------------------------------------------------------------------------------------------
+# Math
+math.hypot(10,10) # arguments should be x1-x2 and y1-y2
+math.dist([10,12],[21,12]) # arguments should be list with size 2
+# works for python > 3.11.*
+n = 10
+k = 3
+math.comb(n,k) 
+math.perm(n,k)
+# -------------------------------------------------------------------------------------------
+# Data Structures
 
+## List
+lisItems = [1,2,3]
+lisItems.reverse()
+lisItems.append(10)
+lisItems.pop()
+
+### Stack
+stack = []
+stack.append(10)
+stack.pop()
+
+## deque
+queue = collections.deque()
+queue.append(10) # append from back
+queue.popLeft()  # dequeues from front
+
+## Heap
+minHeap = [1,2,3,4]
+heapq.heapify(minHeap)
+heapq.heappush(minHeap, 10)
+heapq.hea
+
+## defaultdict 
+counter = collections.defaultdict(int)
+counterMapInitList = collections.defaultdict(list)
+counterMapInitCustomDataItem = collections.defaultdict(lambda: [[],[]])
+
+## Counters
+letter_counts = collections.Counter('Mary had a little lamb') 
+letter_counts.update('Python is high-level language')
+"""
+most_common - get the n items which are most common according to the order they were present in the string
+Eg:
+Counter('Python is high-level language').most_common()
+O/P: [('h', 3), (' ', 3), ('g', 3), ('l', 3), ('e', 3), ('n', 2), ('i', 2), ('a', 2), ('P', 1), ('y', 1), ('t', 1), ('o', 1), ('s', 1), ('-', 1), ('v', 1), ('u', 1)]
+But 
+Counter('Python is high-level language').most_common(3)
+O/P: [('h', 3), (' ', 3), ('g', 3)]
+"""
+print(letter_counts.most_common(3))
