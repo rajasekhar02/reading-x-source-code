@@ -21,15 +21,32 @@ def recurse(arr, start, k, compVal):
 
 def maximalANDSubsequences(arr, k):
     # write your code here
-    return greedy(arr,k)
+    return greedy2(arr,k)
 
-# def combinations(n,k):
-#     res = 1
-#     for i in range(n-k+1,n):
-#         res *= i
-#     for i in range(2, k):
-#         res /= i
-#     return res
+"""
+Accepted Solution
+Time Complexity:  32 * N
+Space Complexity: N
+"""
+def greedy2(arr,k):
+    size = len(arr)
+    temp = arr
+    for j in range(32,0,-1):
+        temp2 = []        
+        for i in range(0,len(temp)):
+            if temp[i] & (1<<j):
+                temp2.append(temp[i])
+        if len(temp2) >= k:
+            temp = temp2
+    maxVal = temp[0]
+    for i in range(1, len(temp)):
+        maxVal &= temp[i]
+    maxValSets = temp
+    noOfSubsequences = math.comb(len(maxValSets), k)
+    if noOfSubsequences == 0:
+        return maxVal, 1
+    return maxVal, math.comb(len(maxValSets), k)
+
 
 def combinations(n,k):
     res = 1
@@ -37,15 +54,18 @@ def combinations(n,k):
         res *= (n-k+i) / i
     return int(res + 0.01)
     
-
+"""
+Time Complexity:  32*2* N
+Space Complexity: N * N
+"""
 def greedy(arr,k):
     size = len(arr)
     bitCount = []
     for i in range(0,32):
         bitCount.append([0,[]])
     for i in range(0,size):
-        strList = list(format(arr[i],"b").rjust(32,"0"))
-        for j in range(0,len(strList)):
+        strList = list(format(arr[i],"b").rjust(32,"0")) # O(32)
+        for j in range(0,len(strList)): # O(32)
             bitCount[j][0] += int(strList[j])
             if int(strList[j]) == 1:
                 bitCount[j][1].append(f'{arr[i]}_{i}')
@@ -71,20 +91,20 @@ def greedy(arr,k):
         return maxVal, 1
     return maxVal, math.comb(len(maxValSets), k)
 
-print(maximalANDSubsequences([6,46,7,36,25,17,23,12,50,47],2))
+
+print(maximalANDSubsequences([3,13,20,36,9,38,18,14,6,13],4))
 """
 5
 10 5
-43,17,37,24,47,10,38,14,5,44 
+43,17,37,24,47,10,38,14,5,44 o/p: 32,1
 10 5
-49,8,41,35,0,16,30,2,9,0 
+49,8,41,35,0,16,30,2,9,0  o/p: 0, 252
 10 3
-35,44,43,24,0,34,1,27,2,19 
+35,44,43,24,0,34,1,27,2,19 o/p: 34, 1
 10 2
-6,46,7,36,25,17,23,12,50,47 
+6,46,7,36,25,17,23,12,50,47 o/p: 46, 1
 10 4
-3,13,20,36,9,38,18,14,6,13 
-
-
-6,3,7,0
+3,13,20,36,9,38,18,14,6,13 o/p: 8, 1
+4 4
+6,3,7,0 o/p: 0, 1
 """
