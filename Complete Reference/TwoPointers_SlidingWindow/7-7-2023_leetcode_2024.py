@@ -1,10 +1,15 @@
 class Solution:
     def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
         left = 0
-        right = 0
+        right = k
         ans = 0
         cntT = 0
         cntF = 0
+
+        for i in range(0, k):
+            cntT += answerKey[i] == "T"
+            cntF += answerKey[i] == "F"
+
         while left < len(answerKey) and right < len(answerKey):
             cntT += answerKey[right] == "T"
             cntF += answerKey[right] == "F"
