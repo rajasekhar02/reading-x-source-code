@@ -53,41 +53,21 @@ class Solution:
         cntT = 0
         cntF = 0
         start = 0
-        cntChsLessThanK = True
         for i in range(0, len(answerKey)):
             cntT += answerKey[i] == "T"
             cntF += answerKey[i] == "F"
+            """
+                Key Point:
+                For Testcase: answerKey = "FFTFTTTFFF", k = 1
+                By using the min function, the algorithm ensures that it considers the minimum count between "T" and "F" at each step. 
+                This allows the algorithm to properly handle cases where the count of either "T" or "F" exceeds k and adjust the sliding window accordingly.
+            """
             # print(cntT, cntF, ans)
-            if cntT > cntF and cntF == k:
-                cntChsLessThanK = False
-                goForward = i + 1
-                tCntF = cntF
-                tCntT = cntT
-                while tCntF == k and goForward < len(answerKey):
-                    tCntF += answerKey[goForward] == "F"
-                    tCntT += answerKey[goForward] == "T"
-                    goForward += 1
-                ans = max(ans, tCntT + min(k, tCntF))
-                temp = i - k
-                while answerKey[start] == "T" and temp > 1:
-                    cntT -= 1
-                    start += 1
-                    temp -= 1
-            elif cntF > cntT and cntT == k:
-                cntChsLessThanK = False
-                goForward = i + 1
-                tCntF = cntF
-                tCntT = cntT
-                while tCntT == k and goForward < len(answerKey):
-                    tCntF += answerKey[goForward] == "F"
-                    tCntT += answerKey[goForward] == "T"
-                    goForward += 1
-                ans = max(ans, tCntF + min(k, tCntT))
-                temp = i - k
-                while answerKey[start] == "F" and temp > 1:
-                    cntF -= 1
-                    start += 1
-                    temp -= 1
-        if cntChsLessThanK:
-            return len(answerKey)
+            minCnt = min(cntT, cntF)
+            while minCnt > k:
+                cntT -= answerKey[start] == "T"
+                cntF -= answerKey[start] == "F"
+                start += 1
+                minCnt = min(cntT, cntF)
+            ans = max(ans, cntT + cntF)
         return ans
