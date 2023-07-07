@@ -1,30 +1,17 @@
 class Solution:
     def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
+        ans = k
+        cnt = [0, 0]
+        for i in range(0, k):
+            cnt[int(answerKey[i] == "T")] += 1
         left = 0
         right = k
-        ans = 0
-        cntT = 0
-        cntF = 0
-
-        for i in range(0, k):
-            cntT += answerKey[i] == "T"
-            cntF += answerKey[i] == "F"
-
         while left < len(answerKey) and right < len(answerKey):
-            cntT += answerKey[right] == "T"
-            cntF += answerKey[right] == "F"
-            if cntF > k:
-                ans = max(ans, cntT + k)
-                while left < len(answerKey) and cntF > k:
-                    cntF -= answerKey[left] == "F"
-                    cntT -= answerKey[left] == "T"
-                    left += 1
-            elif cntT > k:
-                ans = max(ans, cntF + k)
-                while left < len(answerKey) and cntT > k:
-                    cntF -= answerKey[left] == "F"
-                    cntT -= answerKey[left] == "T"
-                    left += 1
+            cnt[int(answerKey[right] == "T")] += 1
+            while min(cnt[0], cnt[1]) > k:
+                cnt[int(answerKey[left] == "T")] -= 1
+                left += 1
+            ans = max(ans, right - left + 1)
             right += 1
         return ans
 
