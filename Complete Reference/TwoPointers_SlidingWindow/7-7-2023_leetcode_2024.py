@@ -48,7 +48,7 @@ class Solution:
                 return True
         return False
 
-    def maxConsecutiveAnswersNotWorking(self, answerKey: str, k: int) -> int:
+    def maxConsecutiveAnswersFixedBug(self, answerKey: str, k: int) -> int:
         ans = 0
         cntT = 0
         cntF = 0
