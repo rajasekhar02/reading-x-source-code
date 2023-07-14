@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Change to Project Dir
-        run: 
+        run: |
           cd vue3-ci-cd
           ls
 
