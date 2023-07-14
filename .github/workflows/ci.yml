@@ -18,7 +18,9 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Change to Project Dir
-        run: ls
+        run: 
+          cd vue3-ci-cd
+          ls
 
       - name: Install Dependencies
         uses: bahmutov/npm-install@v1
