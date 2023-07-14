@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Current Dir
-        uses: ls
+        run: ls
 
       - name: Checkout Repo
         uses: actions/checkout@v3
