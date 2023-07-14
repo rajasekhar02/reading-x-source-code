@@ -17,13 +17,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
 
-      - name: Change to Project Dir
-        run: |
-          cd vue3-ci-cd
-          ls
-
       - name: Install Dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          working-directory: vue3-ci-cd
 
       - name: Build project
         run: npm run build
