@@ -24,10 +24,13 @@ jobs:
 
       - name: Build project
         run: npm run build
+        with:
+          working-directory: vue3-ci-cd
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
+          working-directory: vue3-ci-cd
           name: production-files
           path: ./dist
   
