@@ -1,17 +1,15 @@
 import math
 def solve(adjList, queries, n, q):
-    max_levels = math.floor(math.log2(n)) + 1
-    max_2_pow = math.floor(math.log2(max_levels)) + 1
     parents_at_2_pows = []
     for i in range(n):
         parents_at_2_pows.append([])
         # for j in range(max_2_pow):
         #     parents_at_2_pows[-1].append(0)
-    print(max_levels, max_2_pow, len(parents_at_2_pows))
+    print(len(parents_at_2_pows))
     for i in range(n-1, 0, -1):
         listParents = []
         curr_node = i
-        for j in range(max_levels):
+        while True:
             if curr_node == 0:
                 listParents.append(adjList[curr_node])
                 break
@@ -25,7 +23,7 @@ def solve(adjList, queries, n, q):
                 break
             list_k_parents.append(listParents[kth_parent-1])
         parents_at_2_pows[i] = list_k_parents
-
+    print(parents_at_2_pows)
 
 def main():
     [n,q] = list(map(int,input().split(" ")))
