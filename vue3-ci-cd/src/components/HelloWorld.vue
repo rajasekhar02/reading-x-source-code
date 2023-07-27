@@ -1,5 +1,5 @@
 <script async setup lang="ts">
-import { ref,onMounted } from 'vue'
+import { ref,onMounted } from "vue"
 import type {Ref} from "vue"
 import {getPokemons} from "./pokemon/pokemon.api.ts"
 defineProps<{ msg: string }>()
@@ -7,11 +7,15 @@ type Pokemon = {
     name: string
     url: string
 }
-const count = ref(0)
+// const count = ref(0)
 const rectFivePokemons:Ref<Pokemon[]> = ref([])
-onMounted(async ()=>{
-  const fivePokemons = await getPokemons()
-  rectFivePokemons.value = fivePokemons
+onMounted(async () => {
+  try {
+    const fivePokemons = await getPokemons()
+    rectFivePokemons.value = fivePokemons
+  } catch (err) {
+    console.error(err)
+  }
 })
 
 </script>
