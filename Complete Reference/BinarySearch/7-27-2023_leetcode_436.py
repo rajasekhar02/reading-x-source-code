@@ -16,7 +16,7 @@ class Solution:
         high = end
         ans = -1
         while low <= high:
-            # able the below formula able to starting searching from given low index
+            # with the below formula able to starting searching from given low index
             mid = low + ((high-low) // 2)
             jIntervalStart = intervals[mid][0][0]
             if  jIntervalStart >= ithIntervalEnd:
