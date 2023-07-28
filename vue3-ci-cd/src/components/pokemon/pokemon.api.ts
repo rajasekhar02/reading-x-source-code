@@ -5,6 +5,7 @@ const axiosClient = axios.create({
 })
 
 type Pokemon = {
+    id: number
     name: string
     url: string
 }
@@ -32,8 +33,9 @@ export async function getPokemons(): Promise<Pokemon[]> {
             }
             let pokemonId = (matches[1]).substring(1, matches[1]?.length - 1)
             // pokemonId = pokemonId.substring(1, matches.length - 1)
-            console.log(pokemonId)
+            // console.log(pokemonId)
             return {
+                id: pokemonId,
                 name: x.name,
                 url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonId}.svg`
             }
