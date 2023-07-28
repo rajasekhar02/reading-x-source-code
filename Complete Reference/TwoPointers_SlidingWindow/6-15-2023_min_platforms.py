@@ -5,18 +5,6 @@ from collections import deque
 class Solution:
     # Function to find the minimum number of platforms required at the
     # railway station such that no train waits.
-    def minimumPlatform1(self, n, arr, dep):
-        # code here
-        flatTrainSchedule = []
-        for id, i in enumerate(arr):
-            flatTrainSchedule.append([i, id + 1])
-            flatTrainSchedule.append([dep[id], id + 1])
-        queue = deque()
-        flatTrainSchedule = sorted(flatTrainSchedule, key=lambda x: (x[0], x[1]))
-        # for i in flatTrainSchedule:
-        #     if len(queue) == 0:
-        #         queue.append()
-
     def minimumPlatform(self, n, arr, dep):
         # below two lines are the important in this problem
         arr.sort()

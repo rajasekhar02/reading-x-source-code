@@ -32,7 +32,6 @@ class Solution:
         if N == 0:
             return [[]]
         lis = self.recurse(nums, pos + 1, N - 1)
-        size = len(lis)
         start = 0
         end = self.subsetSizeAtPos[pos + 1]
 
