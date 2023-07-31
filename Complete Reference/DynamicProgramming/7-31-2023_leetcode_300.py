@@ -9,10 +9,8 @@ class Solution(object):
             dp.append([])
             for j in range(len(nums) + 1):
                 dp[i].append(-100000)
-        newNums = [-100000]
-        for i in nums:
-            newNums.append(i)
-        return self.recurse(0, 1, newNums, dp)
+        # newNums = [-100000]
+        return self.recurse(-1, 0, nums, dp)
 
     def recurse(self, prevBigNumId, currIndex, nums, dp):
         if currIndex == len(nums):
@@ -21,20 +19,20 @@ class Solution(object):
         if dp[prevBigNumId][currIndex] != -100000:
             return dp[prevBigNumId][currIndex]
 
-        if nums[prevBigNumId] >= nums[currIndex]:
-            """
-            don't pick this element
-            """
-            dp[prevBigNumId][currIndex] = self.recurse(
-                prevBigNumId, currIndex + 1, nums, dp
-            )
-            return dp[prevBigNumId][currIndex]
-
         """
-        pick this element 
         don't pick this element
         """
-        lenPickedCurrId = 1 + self.recurse(currIndex, currIndex + 1, nums, dp)
-        lenNotPickedCurrId = self.recurse(prevBigNumId, currIndex + 1, nums, dp)
-        dp[prevBigNumId][currIndex] = max(lenPickedCurrId, lenNotPickedCurrId)
+        dp[prevBigNumId][currIndex] = self.recurse(
+            prevBigNumId, currIndex + 1, nums, dp
+        )
+
+        if (prevBigNumId == -1) or (nums[prevBigNumId] < nums[currIndex]):
+            """
+            pick this element
+            don't pick this element
+            """
+            lenPickedCurrId = 1 + self.recurse(currIndex, currIndex + 1, nums, dp)
+            dp[prevBigNumId][currIndex] = max(
+                lenPickedCurrId, dp[prevBigNumId][currIndex]
+            )
         return dp[prevBigNumId][currIndex]
