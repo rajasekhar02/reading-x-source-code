@@ -249,3 +249,82 @@ let myUnknown: number
 
 ### Bottom Type
 [`never`](https://www.typescript-training.com/course/fundamentals-v3/11-top-and-bottom-types/#exhaustive-conditionals): approach works nicely with a switch statement, when the UnreachableError is thrown from the default case clause.
+
+## Type Guards
+### Built-in typeguards
+Refer to `typeguards.ts`
+
+### [User-defined type guards](https://www.typescript-training.com/course/fundamentals-v3/12-type-guards/#writing-high-quality-guards)
+**value is Foo**: The first kind of user-defined type guard we will review is an is type guard. It is perfectly suited for our example above because it’s meant to work in cooperation with a control flow statement of some sort, to indicate that different branches of the “flow” will be taken based on an evaluation of valueToTest’s type. Pay very close attention to isCarLike’s return type
+```ts
+interface CarLike {
+  make: string
+  model: string
+  year: number
+}
+ 
+let maybeCar: unknown
+ 
+// the guard
+function isCarLike(
+  valueToTest: any
+): valueToTest is CarLike {
+  return (
+    valueToTest &&
+    typeof valueToTest === "object" &&
+    "make" in valueToTest &&
+    typeof valueToTest["make"] === "string" &&
+    "model" in valueToTest &&
+    typeof valueToTest["model"] === "string" &&
+    "year" in valueToTest &&
+    typeof valueToTest["year"] === "number"
+  )
+}
+ 
+// using the guard
+if (isCarLike(maybeCar)) {
+  maybeCar
+  // Typehint: let maybeCar: CarLike
+}
+```
+
+**asserts value is Foo**: There is another approach we could take that eliminates the need for a conditional. Pay very close attention to assertsIsCarLike’s return type:
+
+```ts
+interface CarLike {
+  make: string
+  model: string
+  year: number
+}
+ 
+let maybeCar: unknown
+ 
+// the guard
+function assertsIsCarLike(
+  valueToTest: any
+): asserts valueToTest is CarLike {
+  if (
+    !(
+      valueToTest &&
+      typeof valueToTest === "object" &&
+      "make" in valueToTest &&
+      typeof valueToTest["make"] === "string" &&
+      "model" in valueToTest &&
+      typeof valueToTest["model"] === "string" &&
+      "year" in valueToTest &&
+      typeof valueToTest["year"] === "number"
+    )
+  )
+    throw new Error(
+      `Value does not appear to be a CarLike${valueToTest}`
+    )
+}
+ 
+// using the guard
+maybeCar
+   
+let maybeCar: unknown
+assertsIsCarLike(maybeCar)
+maybeCar
+// Typehint: let maybeCar: CarLike
+```
