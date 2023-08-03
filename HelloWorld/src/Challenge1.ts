@@ -1,6 +1,7 @@
-type JSONObject = string | number | boolean | null | { [key: string]: JSONObject | JSONObject[] }
-type JSONArray = JSONObject[]
-type JSONValue = JSONObject | JSONArray
+type JSONPrimitive = string | number | boolean | null
+type JSONObject = { [key: string]: JSONValue }
+type JSONArray = JSONValue[]
+type JSONValue = JSONObject | JSONArray | JSONPrimitive
 
 ////// DO NOT EDIT ANY CODE BELOW THIS LINE //////
 function isJSON(arg: JSONValue) { }
