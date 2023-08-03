@@ -3,7 +3,9 @@
         "outDir": "dist", // where to put the TS files
         "target": "ES2021", // which level of JS support to target
         "module": "CommonJS",
-        "declaration": true
+        "declaration": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true
     },
     "include": [
         "src"

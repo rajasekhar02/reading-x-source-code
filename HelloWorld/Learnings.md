@@ -152,3 +152,42 @@ In many situations, either a type alias or an interface would be perfectly fine,
 * If you need to define something other than an object type (e.g., use of the | union type operator), you must use a type alias
 * If you need to define a type to use with the implements heritage term, it’s best to use an interface
 * If you need to allow consumers of your types to augment them, you must use an interface.
+
+### Recursion
+Recursive types, are self-referential, and are often used to describe infinitely nestable types. For example, consider infinitely nestable arrays of numbers
+
+```ts
+type NestedNumbers = number | NestedNumbers[]
+ 
+const val: NestedNumbers = [3, 4, [5, 6, [7], 59], 221]
+ 
+if (typeof val !== "number") {
+  val.push(41)
+  // Below Line ERROR: Argument of type 'string' is not assignable to parameter of type 'NestedNumbers'.
+  val.push("this will not work")
+}
+```
+
+## Functions
+
+`void` is a special type, that’s specifically used to describe function return values. It has the following meaning:
+
+```The return value of a void function is intended to be ignored```
+
+### Constructor Signatures
+Construct signatures are similar to call signatures, except they describe what should happen with the new keyword.
+```ts
+interface DateConstructor {
+  new (value: number): Date
+}
+ 
+let MyDateConstructor: DateConstructor = Date
+const d = new MyDateConstructor()
+```
+
+### Function overloads
+* There should be a declaration followed after the overloading function definition
+* All the overloaded functions should be exported
+
+### Function type best practices
+* Explicitly define return types

@@ -22,7 +22,7 @@ class LivingOrganism {
     }
 }
 interface AnimalLike {
-    eat(food): void
+    eat(food: string): void
 }
 interface CanBark {
     bark(): string
@@ -34,7 +34,7 @@ class Dog
     bark() {
         return "woof"
     }
-    eat(food) {
+    eat(food: string) {
         this.consumeFood(food)
     }
 }
