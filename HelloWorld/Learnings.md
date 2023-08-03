@@ -216,3 +216,36 @@ class Car extends Base {
  
 const c = new Car("honda")
 ```
+
+## Top and Bottom Types
+
+### Top Types
+`any`: You can think of values with an any type as “playing by the usual JavaScript rules”.
+`unknown`: unknown is different from any in a very important way, i.e: Values with an unknown type cannot be used without first applying a type guard
+```ts
+// ERROR: Accessing `myUnknown.it.is.possible.to.access.any.deep.property` Object is of type 'unknown'.
+let myUnknown: unknown = 14
+         
+// Correct Way: Using Type guard
+// This code runs for { myUnknown| anything }
+if (typeof myUnknown === "string") {
+  // This code runs for { myUnknown| all strings }
+  console.log(myUnknown, "is a string")
+                 
+let myUnknown: string
+} else if (typeof myUnknown === "number") {
+  // This code runs for { myUnknown| all numbers }
+  console.log(myUnknown, "is a number")
+                 
+let myUnknown: number
+} else {
+  // this would run for "the leftovers"
+  //       { myUnknown| anything except string or numbers }
+}
+```
+**Practical use of top types:**
+*  if you ever convert a project from JavaScript to TypeScript, it’s very convenient to be able to incrementally add increasingly strong types.
+* `unknown` is great for values received at runtime (e.g., your data layer). By obligating consumers of these values to perform some light validation before using them, errors are caught earlier, and can often be surfaced with more context.
+
+### Bottom Type
+[`never`](https://www.typescript-training.com/course/fundamentals-v3/11-top-and-bottom-types/#exhaustive-conditionals): approach works nicely with a switch statement, when the UnreachableError is thrown from the default case clause.
