@@ -191,3 +191,28 @@ const d = new MyDateConstructor()
 
 ### Function type best practices
 * Explicitly define return types
+
+## Classes
+* JS Classes private fields are followed #. `#fields`
+* `readonly`: While not strictly an access modifier keyword (because it has nothing to do with visibility), TypeScript provides a readonly keyword that can be used with class fields.
+* Note the following order of what ends up in the class constructor:
+
+  * super()
+  * param property initialization
+  * other class field initialization
+  * anything else that was in your constructor after super()
+  * Also note that, while it is possible in JS to put stuff before super(), the use of class field initializers or param properties disallows this:
+```js
+class Base {}
+ 
+class Car extends Base {
+  foo = console.log("class field initializer")
+  constructor(public make: string) {
+    console.log("before super")
+    super()
+    console.log("custom constructor stuff")
+  }
+}
+ 
+const c = new Car("honda")
+```
