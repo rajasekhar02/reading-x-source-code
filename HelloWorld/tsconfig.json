@@ -5,7 +5,9 @@
         "module": "CommonJS",
         "declaration": true,
         "noImplicitAny": true,
-        "noImplicitThis": true
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true
     },
     "include": [
         "src"

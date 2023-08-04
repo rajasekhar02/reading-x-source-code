@@ -6,6 +6,7 @@ export class Car {
     protected vinNumber = generateVinNumber()
     private doorLockCode = generateDoorLockCode()
     constructor(make: string, model: string, year: number) {
+        this.ID = Math.random()
         this.make = make
         this.model = model
         this.#year = year

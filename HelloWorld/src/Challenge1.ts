@@ -20,6 +20,7 @@ isJSON({ a: { b: [2, 3, "foo"] } })
 isJSON(() => "")
 // @ts-expect-error
 isJSON(class { })
+// @ts-expect-error
 isJSON(undefined)
 // @ts-expect-error
 isJSON(new BigInt(143))
