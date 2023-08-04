@@ -1,3 +1,7 @@
+## [Course Refered](https://github.com/mike-north/ts-fundamentals-v3)
+
+## TS Files
+
 A good way to think of TS files:
 
 - .ts files contain both type information and code that runs
@@ -413,3 +417,18 @@ function submitForm() {
 
 - The definite assignment !: operator is used to suppress TypeScript’s objections about a class field being used, when it can’t be `proven (means, “the compiler can’t convince itself.”)` that it was initialized.
 - There is a good example `(file: nullish.ts)` of a totally appropriate use of the definite assignment operator, where I as the code author have some extra context that the compiler does not.
+
+## Generics
+
+### Generics Scopes and Constraints
+
+**Generic Constraints**
+
+- Generic constraints allow us to describe the “minimum requirement” for a type param, such that we can achieve a high degree of flexibility, while still being able to safely assume some minimal structure and behavior.
+
+```diff
+- function listToDict(list: HasId[]): Dict<HasId> {
++ function listToDict<T extends HasId>(list: T[]): Dict<T> {
+```
+
+- When a class extends from a base class, it’s guaranteed to at least align with the base class structure. In the same way, T extends HasId guarantees that “T is at least a HasId”
