@@ -602,3 +602,118 @@ The `keyof` type query allows us to obtain `a type` that represents all property
 ### typeof
 
 The typeof type query allows you to extract a type from a value.
+
+## Conditional Types
+
+### Syntax
+
+```ts
+type CookingDevice<T> = T extends "grill" ? Grill : Oven;
+```
+
+### Example
+
+```ts
+class Grill {
+  startGas() {}
+  stopGas() {}
+}
+class Oven {
+  setTemperature(degrees: number) {}
+}
+
+type CookingDevice<T> = T extends "grill" ? Grill : Oven;
+
+let device1: CookingDevice<"grill">; // device1 Type is Grill
+
+let device2: CookingDevice<"oven">; // device2 Type is Oven
+```
+
+### [Inferring within conditional types](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#inferring-within-conditional-types)
+
+In the same release where conditional types were added to TypeScript a new `infer` keyword was added as well. This keyword, which can only be used in the context of a condition expression (within a conditional type declaration) is an important tool for being able to extract out pieces of type information from other types.
+
+```ts
+// Syntax
+type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
+```
+
+### [Distributive Conditional Types](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types)
+
+When conditional types act on a generic type, they become distributive when given a union type.
+
+```ts
+type ToArray<Type> = Type extends any ? Type[] : never;
+//    ^?
+```
+
+```ts
+type ToArray<Type> = Type extends any ? Type[] : never;
+
+type StrArrOrNumArr = ToArray<string | number>; // Finally type StrArrOrNumArr = string[] | number[]
+```
+
+## Indexed Access Types
+
+```ts
+interface Car {
+  make: string;
+  model: string;
+  year: number;
+  color: {
+    red: string;
+    green: string;
+    blue: string;
+  };
+}
+
+let carColor: Car["color"];
+/*Type of carColor is {
+    red: string;
+    green: string;
+    blue: string;
+}*/
+
+// deeper into the object through multiple “accesses”
+let carColorRedComponent: Car["color"]["red"];
+
+// Can pass or “project” a union type (|) through Car as an index, as long as all parts of the union type are each a valid index
+let carProperty: Car["color" | "year"];
+```
+
+## Mapped Types
+
+The use of the `in` keyword typescript compiler allows the generic type `OptionsFlags` to iterate over all the properties (keys) in the provided type `Type`, enabling the creation of a new type `FeatureOptions` with `boolean` flags for each property, effectively representing options for various features.
+
+```ts
+type OptionsFlags<Type> = {
+  [Property in keyof Type]: boolean;
+};
+
+type Features = {
+  darkMode: () => void;
+  newUserProfile: () => void;
+};
+
+type FeatureOptions = OptionsFlags<Features>;
+/*      ^^
+type FeatureOptions = {
+    darkMode: boolean;
+    newUserProfile: boolean;
+}
+*/
+```
+
+### [Mapping Modifiers](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html#mapping-modifiers)
+
+There are two additional modifiers which can be applied during mapping: readonly and ? which affect mutability and optionality respectively.
+
+You can remove or add these modifiers by prefixing with - or +. If you don’t add a prefix, then + is assumed.
+
+### Key Remapping via as
+
+```ts
+type MappedTypeWithNewProperties<Type> = {
+  [Properties in keyof Type as NewKeyType]: Type[Properties];
+};
+```
