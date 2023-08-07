@@ -592,3 +592,13 @@ declare module "*.png" {
 // @filename: component.ts
 import img from "./file.png";
 ```
+
+## Type Queries
+
+### keyof
+
+The `keyof` type query allows us to obtain `a type` that represents all property keys on a given interface
+
+### typeof
+
+The typeof type query allows you to extract a type from a value.
