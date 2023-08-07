@@ -1,8 +1,8 @@
-import { TwoNumberCalc, TwoNumberCalculation, handleMainEvent } from "./types"
+import { TwoNumberCalc, TwoNumberCalculationFunction, handleMainEvent } from "./types"
 
 function main() {
     const add: TwoNumberCalc = (a, b) => a + b
-    const sub: TwoNumberCalculation = function (a, b) {
+    const sub: TwoNumberCalculationFunction = function (a, b) {
         return a - b
     }
     let MyDateConstructor: DateConstructor = Date

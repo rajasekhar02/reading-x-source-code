@@ -1,5 +1,10 @@
 export interface TwoNumberCalculation {
-    (x: number, y: number): number
+    calculator: (x: number, y: number) => number
+}
+
+// Call Signatures
+export interface TwoNumberCalculationFunction {
+    (x:number, y:number): number
 }
 
 export type TwoNumberCalc = (x: number, y: number) => number
