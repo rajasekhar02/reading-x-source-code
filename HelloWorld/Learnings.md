@@ -432,3 +432,163 @@ function submitForm() {
 ```
 
 - When a class extends from a base class, it’s guaranteed to at least align with the base class structure. In the same way, T extends HasId guarantees that “T is at least a HasId”
+
+## Declaration Merging
+
+### Stacking multiple things on a identifier
+
+We can use the same variable for class, namespace and interface. The compiler use the identifies the correct type based on the variable usage.
+
+```ts
+class Fruit {
+  static createBanana(): Fruit {
+    return { name: "banana", color: "yellow", mass: 183 };
+  }
+}
+
+// the namespace
+namespace Fruit {
+  function createFruit(): Fruit {
+    // the type
+    return Fruit.createBanana(); // the class
+  }
+}
+
+interface Fruit {
+  name: string;
+  mass: number;
+  color: string;
+}
+
+export { Fruit };
+```
+
+```ts
+const is_a_value = 4;
+type is_a_type = {};
+namespace is_a_namespace {
+  const foo = 17;
+}
+
+// how to test for a value
+const x = is_a_value; // the value position (RHS of =).
+
+// how to test for a type
+const y: is_a_type = {}; // the type position (LHS of = ).
+
+// how to test for a namespace (hover over is_a_namespace symbol)
+is_a_namespace;
+```
+
+### A look back on class
+
+classes are both a type and a value.
+
+```ts
+class Fruit {
+  name?: string;
+  mass?: number;
+  color?: string;
+  static createBanana(): Fruit {
+    return { name: "banana", color: "yellow", mass: 183 };
+  }
+}
+
+// how to test for a value
+const valueTest = Fruit; // Fruit is a value!
+valueTest.createBanana;
+
+// how to test for a type
+let typeTest: Fruit = {} as any; // Fruit is a type!
+typeTest.color;
+```
+
+The word completions for the letter c above are a clue as to what’s going on:
+
+- When Fruit is used as a type, it describes the type of an instance of Fruit
+- When Fruit is used as a value, it can both act as the constructor (e.g., new Fruit()) and holds the “static side” of the class (createBanana() in this case)
+
+## Modules and CJS Interop
+
+### ES Module imports and exports
+
+```ts
+// named imports
+import { strawberry, raspberry } from "./berries";
+import kiwi from "./kiwi"; // default import
+export function makeFruitSalad() {} // named export
+export default class FruitBasket {} // default export
+export { lemon, lime } from "./citrus";
+```
+
+### CommonJS Interop
+
+Most of the time, you can just convert something like
+
+```ts
+const fs = require("fs");
+```
+
+into
+
+```ts
+// namespace import
+import \* as fs from "fs"
+```
+
+but occasionally, you’ll run into a rare situation where the CJS module you’re importing from, exports a single thing that’s incompatible with this namespace import technique. For Example as below
+
+```ts
+////////////////////////////////////////////////////////
+// @filename: fruits.ts
+function createBanana() {
+  return { name: "banana", color: "yellow", mass: 183 };
+}
+
+// equivalent to CJS `module.exports = createBanana`
+export = createBanana;
+////////////////////////////////////////////////////////
+// @filename: smoothie.ts
+
+import * as createBanana from "./fruits";
+```
+
+In these cases simply import using CJS module system
+
+```ts
+////////////////////////////////////////////////////////
+// @filename: fruits.ts
+function createBanana() {
+  return { name: "banana", color: "yellow", mass: 183 };
+}
+
+// equivalent to CJS `module.exports = createBanana`
+export = createBanana;
+////////////////////////////////////////////////////////
+// @filename: smoothie.ts
+
+import createBanana = require("./fruits");
+const banana = createBanana();
+```
+
+### Importing non-TS things
+
+Particularly if you use a bundler like webpack, parcel or snowpack, you may end up importing things that aren’t `.js` or `.ts` files
+
+```ts
+import img from "./file.png";
+```
+
+`file.png` is obviously not a TypeScript file — we just need to tell TypeScript that whenever we import a `.png` file, it should be treated as if it’s a JS module with a string value as its default export
+
+This can be accomplished through a module declaration as shown below
+
+```ts
+// @filename: global.d.ts
+declare module "*.png" {
+  const imgUrl: string;
+  export default imgUrl;
+}
+// @filename: component.ts
+import img from "./file.png";
+```
