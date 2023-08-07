@@ -34,7 +34,7 @@ class Observable {
   retry(num) {
     let self = this;
     return new Observable(function (observer): Subscription {
-      let subscriptionHandle = null
+      let subscriptionHandle:Subscription
       let processRequest = function (value) {
         subscriptionHandle = self.subscribe({
           next(v) {
@@ -52,7 +52,8 @@ class Observable {
           },
         });
       };
-      return processRequest(0);
+      subscriptionHandle = processRequest(0);
+      return subscriptionHandle
     });
   }
 }

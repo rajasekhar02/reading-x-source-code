@@ -134,6 +134,9 @@ let getRandomInt = function (min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 };
+class SomeError extends Error{
+
+}
 
 setIntervalObservable(1000, 5000, 'caller')
   .pipe(
@@ -150,7 +153,7 @@ setIntervalObservable(1000, 5000, 'caller')
         Rx.of(1),
         task.pipe(
           Rx.filter(() => false),
-          Rx.catchError(() => new Observable())
+          Rx.catchError((e) => new Observable(new SomeError(e)))
         ),
         Rx.of(-1)
       );
