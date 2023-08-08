@@ -96,7 +96,9 @@ const images = subSelectChange.pipe(
     getSubImages(sub).pipe(
       Rx.switchMap((imagesArr) =>
         currPosition.pipe(
-          Rx.filter((index) => index >= 0 && index < imagesArr.length),
+          Rx.map((index) => {
+            return (index + imagesArr.length) % imagesArr.length;
+          }),
           Rx.map((index) => imagesArr[index]),
           Rx.switchMap((imageUrl) => preloadImage(imageUrl))
         )
