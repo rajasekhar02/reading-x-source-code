@@ -68,13 +68,15 @@ function getSubImages(sub) {
 }
 
 function preloadImage(src) {
-  let image = new Image();
-  image.src = src;
-  let success = Rx.fromEvent(image, 'load').pipe(Rx.map(() => src));
-  let failed = Rx.fromEvent(image, 'error').pipe(
-    Rx.map(() => LOADING_ERROR_URL)
-  );
-  return Rx.merge(success, failed);
+  return Rx.defer(() => {
+    let image = new Image();
+    image.src = src;
+    let success = Rx.fromEvent(image, 'load').pipe(Rx.map(() => src));
+    let failed = Rx.fromEvent(image, 'error').pipe(
+      Rx.map(() => LOADING_ERROR_URL)
+    );
+    return Rx.merge(success, failed);
+  });
 }
 // // ---------------------- INSERT CODE  HERE ---------------------------
 // // This "images" Observable is a dummy. Replace it with a stream of each
@@ -95,10 +97,10 @@ const images = subSelectChange.pipe(
       Rx.switchMap((imagesArr) =>
         currPosition.pipe(
           Rx.filter((index) => index >= 0 && index < imagesArr.length),
-          Rx.map((index) => imagesArr[index])
+          Rx.map((index) => imagesArr[index]),
+          Rx.switchMap((imageUrl) => preloadImage(imageUrl))
         )
-      ),
-      Rx.switchMap((imageUrl) => preloadImage(imageUrl))
+      )
     )
   )
 );
