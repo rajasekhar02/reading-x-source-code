@@ -15,4 +15,6 @@
  * fromPromise
  * catchError
  * retry
+ * do -> useful for debugging
+ * defer ->
  */

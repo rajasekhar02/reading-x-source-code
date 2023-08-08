@@ -23,15 +23,14 @@ const subSelectChange = Rx.concat(
 const nextButtonClick = Rx.fromEvent(nextButton, 'click');
 const backButtonClick = Rx.fromEvent(backButton, 'click');
 
-const actions = new Observable();
-
-// function which returns an array of image URLs for a given reddit sub
-// getSubImages("pics") ->
-// [
-//   "https://upload.wikimedia.org/wikipedia/commons/3/36/Hopetoun_falls.jpg",
-//   "https://upload.wikimedia.org/wikipedia/commons/3/38/4-Nature-Wallpapers-2014-1_ukaavUI.jpg",
-//   ...
-// ]
+// Position of the below line matters check the bottom of the code
+const actions = Rx.merge(
+  subSelectChange,
+  nextButtonClick,
+  backButtonClick
+).subscribe(() => {
+  loading.style.visibility = 'visible';
+});
 
 let fromPromise = (promise) => {
   return new Observable(function (observer) {
@@ -68,29 +67,41 @@ function getSubImages(sub) {
   }
 }
 
-// ---------------------- INSERT CODE  HERE ---------------------------
-// This "images" Observable is a dummy. Replace it with a stream of each
-// image in the current sub which is navigated by the user.
-loading.style.visibility = 'visible';
+function preloadImage(src) {
+  let image = new Image();
+  image.src = src;
+  let success = Rx.fromEvent(image, 'load').pipe(Rx.map(() => src));
+  let failed = Rx.fromEvent(image, 'error').pipe(
+    Rx.map(() => LOADING_ERROR_URL)
+  );
+  return Rx.merge(success, failed);
+}
+// // ---------------------- INSERT CODE  HERE ---------------------------
+// // This "images" Observable is a dummy. Replace it with a stream of each
+// // image in the current sub which is navigated by the user.
+// loading.style.visibility = 'visible';
 
-const currPosition = Rx.merge(
-  nextButtonClick.pipe(Rx.map(() => 1)),
-  backButtonClick.pipe(Rx.map(() => -1))
-).pipe(Rx.scan((acc, curr) => acc + curr, 0));
-
-const images = subSelectChange.pipe(
-  Rx.map((sub) =>
-    getSubImages(sub).pipe(
-      (imagesArr) => currPosition.pipe(Rx.map((index) => imagesArr[index])),
-      Rx.switchAll()
-    )
-  ),
-  Rx.switchAll()
+const currPosition = Rx.concat(
+  Rx.of(0),
+  Rx.merge(
+    nextButtonClick.pipe(Rx.map(() => 1)),
+    backButtonClick.pipe(Rx.map(() => -1))
+  ).pipe(Rx.scan((acc, curr) => acc + curr, 0))
 );
 
-//  Rx.of(
-//   'https://upload.wikimedia.org/wikipedia/commons/3/36/Hopetoun_falls.jpg'
-// );
+const images = subSelectChange.pipe(
+  Rx.switchMap((sub) =>
+    getSubImages(sub).pipe(
+      Rx.switchMap((imagesArr) =>
+        currPosition.pipe(
+          Rx.filter((index) => index >= 0 && index < imagesArr.length),
+          Rx.map((index) => imagesArr[index])
+        )
+      ),
+      Rx.switchMap((imageUrl) => preloadImage(imageUrl))
+    )
+  )
+);
 
 images.subscribe({
   next(url) {
@@ -108,57 +119,11 @@ images.subscribe({
   },
 });
 
-// This "actions" Observable is a placeholder. Replace it with an
-// observable that notfies whenever a user performs an action,
-// like changing the sub or navigating the images
-
-actions.subscribe(() => (loading.style.visibility = 'visible'));
-
-// Rx.concat(
-//   windowLoad.pipe(Rx.takeUntil(Rx.fromEvent(subSelect, 'change'))),
-//   subSelectChange
-// ).pipe(
-//   Rx.concatMap((selectedValue) => {
-//     return getSubImages(selectedValue);
-//   })
-// );
-// Rx.map(() =>
-//   subSelectChange.pipe(
-//     Rx.concatMap((selectedValue) => {
-//       loading.style.visibility = 'visible';
-//       // console.log(selectedValue);
-//       return getSubImages(selectedValue);
-//     }),
-//     Rx.mergeMap((imageUrls: string[]) => {
-//       currPosition = 0;
-//       let newImageUrls = imageUrls;
-//       return Rx.merge(
-//         Rx.of(newImageUrls[0]),
-//         backButtonClick.pipe(
-//           Rx.map(() => {
-//             if (currPosition == 0) {
-//               return newImageUrls[0];
-//             }
-//             currPosition--;
-//             return newImageUrls[currPosition];
-//           })
-//         ),
-//         nextButtonClick.pipe(
-//           Rx.map(() => {
-//             if (currPosition == newImageUrls.length - 1)
-//               return newImageUrls[currPosition];
-//             currPosition++;
-//             return newImageUrls[currPosition];
-//           })
-//         )
-//       ).pipe(
-//         Rx.map((imageUrl) => {
-//           if (imageUrl.endsWith('.png') || imageUrl.endsWith('.jpg')) {
-//             return imageUrl;
-//           }
-//           return LOADING_ERROR_URL;
-//         })
-//       );
-//     })
-//   )
-// );
+// This code make the image viewer to show load even the image is loaded
+// const actions = Rx.merge(
+//   subSelectChange,
+//   nextButtonClick,
+//   backButtonClick
+// ).subscribe(() => {
+//   loading.style.visibility = 'visible';
+// });
