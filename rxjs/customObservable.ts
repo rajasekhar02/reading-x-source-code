@@ -56,4 +56,35 @@ class Observable {
       return subscriptionHandle
     });
   }
+
+  static concat(...observables) {
+    return new Observable(function subscribe(observer) {
+      let myObservables = observables.slice()
+      let currSub = null
+      let processObservable = () => {
+        if (myObservables.length === 0) {
+          observer.complete();
+          return;
+        }
+        let observable = myObservables.shift();
+        // observer.next(?) => I can't write this because i don't have the value passed from the observable
+        currSub = observable.subscribe({
+          next(v) {
+            observer.next(v)
+          },
+          error(err) {
+            observer.error(err);
+            currSub.unsubscribe()
+          },
+          complete() {
+            processObservable();
+          }
+        })
+      }
+      processObservable();
+      return {
+        unsubscribe() { currSub.unsubscribe()}
+      }
+    })
+  }
 }

@@ -1,8 +1,18 @@
 {
-  "name": "rxjs",
+  "name": "rxjs-practice",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "rxjs": "latest"
+    "rxjs": "^7.8.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.1.6"
   }
 }

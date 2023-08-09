@@ -232,8 +232,9 @@ clicks.
   });
 
 */
-debugger;
-/*
+
+/* Example for converting the cold observable to hot observable
+// share operator return the subject which makes it hot observable 
 const timeout = Observable.timeout(500).share()
 
 timeout.subscribe({
