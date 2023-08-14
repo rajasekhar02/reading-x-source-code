@@ -67,34 +67,35 @@ function copyFilesFrom(srcDirP: string, destDir: string) {
 
 // Exercises
 // Q1
-const red = () => {
-    console.log('RED')
-}
-
-const green = (func: () => void) => {
-    console.log('GREEN')
-    func()
-}
-
-const blue = (left: (inputFunc: () => void) => void, right: () => void) => {
-    console.log('BLUE')
-    left(right)
-}
 function Q1() {
+    const red = () => {
+        console.log('RED')
+    }
+
+    const green = (func: () => void) => {
+        console.log('GREEN')
+        func()
+    }
+
+    const blue = (left: (inputFunc: () => void) => void, right: () => void) => {
+        console.log('BLUE')
+        left(right)
+    }
     blue(green, red)
 }
 
 // Q2
 
-type VoidFunc = () => void
-type LeftFunc = (inputFunc: VoidFunc) => void
 
-const blue2: (leftFunc: LeftFunc, rightFunc: VoidFunc) => void = (left, right) => {
-    console.log('BLUE')
-    left(right)
-}
 
 function Q2() {
+    type VoidFunc = () => void
+    type LeftFunc = (inputFunc: VoidFunc) => void
+
+    const blue2: (leftFunc: LeftFunc, rightFunc: VoidFunc) => void = (left, right) => {
+        console.log('BLUE')
+        left(right)
+    }
     blue2(
         (callback) => {
             console.log('GREEN')
@@ -136,14 +137,45 @@ Help:
     copyFilesFrom(srcDir, destDir)
 }
 
-// callCopyFunction()
+
+
+function Q4() {
+    const people = [
+        { personal: 'Jean', family: 'Jennings' },
+        { personal: 'Marlyn', family: 'Wescoff' },
+        { personal: 'Ruth', family: 'Lichterman' },
+        { personal: 'Betty', family: 'Snyder' },
+        { personal: 'Frances', family: 'Bilas' },
+        { personal: 'Kay', family: 'McNulty' }
+    ]
+    const result = people.filter(({ personal, family }) => ['j', 'r', 'f'].some(char => personal.toLowerCase().startsWith(char)))
+    console.log(result)
+}
+
+async function countLines() {
+    const filesNames = process.argv.slice(2, process.argv.length)
+    for (let i = 0; i < filesNames.length; i++) {
+        const filePath = filesNames[i]
+        const status = await fs.stat(filePath)
+        if (!status.isFile()) {
+            console.log(`Cannot found file with name ${filePath}`)
+            continue
+        }
+        while (await fs.read)
+    }
+
+}
+countLines()
+/**
+ * Function Genetrates CLI Prompt
+ */
 async function cliPrompt() {
     let question: ListQuestion = {
         type: 'list',
         name: "select_ques",
         message: "Which question you want to execute ?",
         default: "Q1",
-        choices: ["Q1", "Q2", "Q3"]
+        choices: ["Q1", "Q2", "Q3", "Q4", "Exit"]
     }
     const answers: { [key: string]: string } = await inquirer.prompt([question], {})
     switch (answers.select_ques) {
@@ -156,8 +188,12 @@ async function cliPrompt() {
         case 'Q3':
             Q3()
             break
+        case 'Q4':
+            Q4()
+        case "Exit":
+            process.exit()
         default:
             console.error("No such question found")
     }
 }
-cliPrompt()
+// cliPrompt()
