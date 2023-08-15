@@ -12,20 +12,22 @@ function usingSetImmediate() {
     })
 }
 
-usingSetImmediate()
+// usingSetImmediate()
 
-type SuccessCallback = (input: any) => void
+type SuccessCallback = <T>(input: T) => any
 
 class Oath {
-    successCallback: SuccessCallback[]
-    errorCallback: (error: Error) => void
-    constructor(action: (resolve: (input: any) => void, reject: (err: Error) => void) => void) {
+    private status: 'RESOLVED' | 'REJECTED' | "PENDING"
+    private successCallback: SuccessCallback[]
+    private errorCallback: (error: any) => void
+    constructor(action: (resolve: (input: any) => void, reject: (err: any) => void) => void) {
         this.successCallback = []
+        // this.status = "PENDING"
         this.errorCallback = () => { }
         action(this.onResolve.bind(this), this.onReject.bind(this))
     }
 
-    then(callback: (input: any) => void): Oath {
+    then(callback: SuccessCallback): Oath {
         // The reason for successCallback is a array because `then` 
         // is a synchornous function so all the callbacks need to be 
         // append to the promise instance
@@ -50,13 +52,52 @@ class Oath {
         }
     }
 
-    onReject(error: Error) {
+    onReject(error: any) {
         this.errorCallback(error)
     }
 }
 
-let newPromise = new Oath((res, rej) => {
-    setTimeout(() => res(10), 500)
-}).then((output) => {
-    console.log(output)
-})
+// let newPromise2 =
+function () {
+    new Oath((resolve, reject) => {
+        console.log('top of a single then clause')
+    }).then((value) => {
+        console.log(`then with "${value}"`)
+        return 'first then value'
+    })
+}
+
+
+function resolvingPromise() {
+    new Oath((resolve, reject) => {
+        console.log('top of action callback with double then and a catch')
+        setTimeout(() => {
+            console.log('about to call resolve callback')
+            resolve('initial result')
+            console.log('after resolve callback')
+        }, 0)
+        console.log('end of action callback')
+    }).then((value) => {
+        console.log(`first then with "${value}"`)
+        return 'first value'
+    }).then((value) => {
+        console.log(`second then with "${value}"`)
+        return 'second value'
+    })
+}
+
+
+
+function rejection() {
+    new Oath((resolve, reject) => {
+        console.log('top of action callback with deliberate error')
+        setTimeout(() => {
+            console.log('about to reject on purpose')
+            reject('error on purpose')
+        }, 0)
+    }).then((value) => {
+        console.log(`should not be here with "${value}"`)
+    }).catch((err) => {
+        console.log(`in error handler with "${err}"`)
+    })
+}

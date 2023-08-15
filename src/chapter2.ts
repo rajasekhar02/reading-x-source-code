@@ -161,7 +161,7 @@ async function countLines() {
             console.log(`Cannot found file with name ${filePath}`)
             continue
         }
-        while (await fs.read)
+        // while (await fs.read)
     }
 
 }
@@ -196,4 +196,4 @@ async function cliPrompt() {
             console.error("No such question found")
     }
 }
-// cliPrompt()
+cliPrompt()
