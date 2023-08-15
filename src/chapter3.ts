@@ -26,6 +26,9 @@ class Oath {
     }
 
     then(callback: (input: any) => void): Oath {
+        // The reason for successCallback is a array because `then` 
+        // is a synchornous function so all the callbacks need to be 
+        // append to the promise instance
         this.successCallback.push(callback)
         return this
     }
@@ -42,7 +45,8 @@ class Oath {
                 callBackInput = action(callBackInput)
             })
         } catch (error) {
-            this.errorCallback(error)
+            this.successCallback = []
+            this.onReject(error)
         }
     }
 
