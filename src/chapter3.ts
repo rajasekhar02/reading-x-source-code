@@ -20,7 +20,8 @@ class Oath {
     successCallback: SuccessCallback[]
     errorCallback: (error: Error) => void
     constructor(action: (resolve: (input: any) => void, reject: (err: Error) => void) => void) {
-
+        this.successCallback = []
+        this.errorCallback = () => { }
         action(this.onResolve.bind(this), this.onReject.bind(this))
     }
 
@@ -37,8 +38,8 @@ class Oath {
     onResolve(input: any) {
         let callBackInput = input
         try {
-            this.successCallback.forEach(callback => {
-                callback(input)
+            this.successCallback.forEach(action => {
+                callBackInput = action(callBackInput)
             })
         } catch (error) {
             this.errorCallback(error)
