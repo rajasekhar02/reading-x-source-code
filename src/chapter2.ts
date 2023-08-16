@@ -154,6 +154,7 @@ function Q4() {
 
 async function countLines() {
     const filesNames = process.argv.slice(2, process.argv.length)
+    let totalLinesInAllFiles = 0
     for (let i = 0; i < filesNames.length; i++) {
         const filePath = filesNames[i]
         const status = await fs.stat(filePath)
@@ -161,9 +162,13 @@ async function countLines() {
             console.log(`Cannot found file with name ${filePath}`)
             continue
         }
-        while (await fs.read)
+        let content = await fs.readFileSync(filePath, {encoding: "utf-8"})
+        let linesInFile = Array.from(content.matchAll(/\n/g)).length + 1
+        totalLinesInAllFiles += linesInFile
+        console.log(`${filePath} ${linesInFile}`)
     }
 
+    console.log(`total ${totalLinesInAllFiles}`)
 }
 countLines()
 /**
