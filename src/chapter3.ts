@@ -1,3 +1,7 @@
+import fs from "fs-extra"
+import { glob } from "glob"
+
+
 function callbacksWithZeroTimeouts() {
     [1000, 1500, 500].forEach((t) => {
         console.log(`about to setTimeout for ${t}`)
@@ -58,7 +62,7 @@ class Oath {
 }
 
 // let newPromise2 =
-function () {
+function promiseWOCallingResolve() {
     new Oath((resolve, reject) => {
         console.log('top of a single then clause')
     }).then((value) => {
@@ -101,3 +105,83 @@ function rejection() {
         console.log(`in error handler with "${err}"`)
     })
 }
+
+
+// Difference between process.nextTick and setImmediate
+
+function nextTickVsSetImmediate() {
+    console.log("1")
+
+    setImmediate(() => {
+        console.log("Output From setImmediate")
+    })
+    setTimeout(() => {
+        console.log("output from timeout")
+    })
+    process.nextTick(() => {
+        console.log("output from process.nextTick")
+    })
+    return "nextTickVsSetImmediate"
+}
+
+
+function head() {
+    let [linesToDisplay, ...filesNames] = process.argv.slice(2, process.argv.length)
+    const linesToDisplayInt: number = Number.parseInt(linesToDisplay);
+    if (isNaN(linesToDisplayInt)) {
+        console.log(`Invalid arguments: `, linesToDisplay)
+        return
+    }
+    filesNames.forEach(async (fileName) => {
+        if (!fs.existsSync(fileName)) return
+        const status = await fs.stat(fileName)
+        if (!status.isFile()) return
+        try {
+            const content = await fs.readFileSync(fileName, { encoding: 'utf-8' })
+            const contentByLines = content.split("\n")
+            const fileLength = contentByLines.length
+            const sliceEnd = Math.max(0, Math.min(linesToDisplayInt, fileLength))
+            console.log(contentByLines.slice(0, sliceEnd).join("\n"))
+        } catch (err) {
+            console.error("Failed to process: ", fileName)
+        }
+    })
+}
+
+function tail() {
+    let [linesToDisplay, ...filesNames] = process.argv.slice(2, process.argv.length)
+    const linesToDisplayInt: number = Number.parseInt(linesToDisplay);
+    if (isNaN(linesToDisplayInt)) {
+        console.log(`Invalid arguments: `, linesToDisplay)
+        return
+    }
+    filesNames.forEach(async (fileName) => {
+        if (!fs.existsSync(fileName)) return
+        const status = await fs.stat(fileName)
+        if (!status.isFile()) return
+        try {
+            const content = await fs.readFileSync(fileName, { encoding: 'utf-8' })
+            const contentByLines = content.split("\n")
+            const fileLength = contentByLines.length
+            const sliceStart = Math.max(0, Math.min(fileLength - linesToDisplayInt, fileLength))
+            console.log(contentByLines.slice(sliceStart, fileLength).join("\n"))
+        } catch (err) {
+            console.error("Failed to process: ", fileName)
+        }
+    })
+}
+
+const statsPair = async (fileName: string) => {
+    const stats = await fs.statSync(fileName)
+    return { fileName, stats }
+}
+
+
+
+
+// function lh() {
+//     const main = async (srcDir) => {
+//         const files = await glob(`${srcDir}/**/*.*`)
+//         const pairs = await 
+//     }
+// }
