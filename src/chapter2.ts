@@ -201,4 +201,4 @@ async function cliPrompt() {
             console.error("No such question found")
     }
 }
-// cliPrompt()
+cliPrompt()
