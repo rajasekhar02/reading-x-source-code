@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "ES2021", // which level of JS support to target
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib":["ES2020", "DOM", "DOM.Iterable"],
+        "skipLibCheck": true,
+
+        /* Bundler Mode*/
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true
+    },
+     "include": [
+        "src"
+    ] // which files to compile
+}
