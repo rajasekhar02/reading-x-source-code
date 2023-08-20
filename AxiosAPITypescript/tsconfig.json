@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "ES2021", // which level of JS support to target
         "useDefineForClassFields": true,
-        "module": "ESNext",
+        "module": "ES6",
         "lib":["ES2020", "DOM", "DOM.Iterable"],
         "skipLibCheck": true,
 
