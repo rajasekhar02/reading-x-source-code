@@ -22,7 +22,7 @@ int main()
             int notTake = dp[price][coinId - 1];
             dp[price][coinId] = notTake;
             if ((price - coins[coinId - 1]) < 0)
-                break;
+                continue;
             int take = dp[price - coins[coinId - 1]][coinId];
             dp[price][coinId] += take;
             dp[price][coinId] = dp[price][coinId] % 1000000007;

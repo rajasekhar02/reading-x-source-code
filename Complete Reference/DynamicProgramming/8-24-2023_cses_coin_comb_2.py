@@ -23,14 +23,14 @@ if __name__ == "__main__":
         value = int(price == 0)
         for coin in range(0, n + 1):
             dp[price].append(value)
-
-    for price in range(1, x + 1):
+    # dp[0][0] = 1
+    for price in range(0, x + 1):
         for coin in range(1, len(coins) + 1):
             # as I am not taking the present coin I will be maintain the previous coins combinations at the present coin
             notTake = dp[price][coin - 1]
             dp[price][coin] = notTake
             if (price - coins[coin - 1]) < 0:
-                break
+                continue
             take = dp[price - coins[coin - 1]][coin]
             dp[price][coin] += take
             dp[price][coin] = dp[price][coin] % 1000000007
