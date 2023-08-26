@@ -28,18 +28,22 @@ if __name__ == "__main__":
         for j in range(0, upBnd + 1):
             dp[i].append(int(i == n))
     print(dp)
+    # dp[n][0] = upBnd
     for pos in range(n - 1, -1, -1):
-        # for prev_value in range(0, upBnd + 1):
-        prev_value = array[pos] if pos == 0 else array[pos - 1]
-        if array[pos] != 0:
-            if abs(array[pos] - prev_value) <= 1:
-                dp[pos][prev_value] = dp[pos + 1][array[pos]]
-                continue
-        else:
-            start = 1 if prev_value <= 1 else (prev_value - 1)
-            end = upBnd if prev_value == 0 else min((prev_value + 1), upBnd)
-            for possible_value in range(start, end):
-                if abs(prev_value - possible_value) <= 1 or prev_value == 0:
-                    dp[pos][prev_value] += dp[pos + 1][possible_value]
-                    dp[pos][prev_value] %= 1000000007
+        prev_value = array[n - 1] if pos == n - 1 else array[pos + 1]
+        # if array[pos] != 0:
+        #     dp[pos][prev_value] = (
+        #         dp[pos + 1][array[pos]]
+        #         + dp[pos + 1][array[pos] + 1]
+        #         + dp[pos + 1][array[pos] - 1]
+        #     )
+        #     continue
+        # start = 1 if prev_value <= 1 else (prev_value - 1)
+        # end = upBnd if prev_value == 0 else min((prev_value + 1), upBnd)
+        for possible_value in range(1, upBnd + 1):
+            dp[pos][possible_value] += dp[pos + 1][possible_value]
+            if possible_value < upBnd:
+                dp[pos][possible_value] += dp[pos + 1][possible_value + 1]
+            if possible_value > 1:
+                dp[pos][possible_value] += dp[pos + 1][possible_value - 1]
     print(dp, dp[0][array[0]])
