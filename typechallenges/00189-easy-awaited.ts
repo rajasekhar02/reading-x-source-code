@@ -20,5 +20,8 @@ type error = MyAwaited<number>
 
 
 // ============= Your Code Here =============
-
+/**
+ * In this challenge calling the MyAwaited in the type assignment resulting in the recursive resolution of the type
+ *                                                                                vvvvvvvvvvv
+ */
 type MyAwaited<T> = T extends PromiseLike<infer X> ? X extends PromiseLike<any> ? MyAwaited<X> : X : never 
