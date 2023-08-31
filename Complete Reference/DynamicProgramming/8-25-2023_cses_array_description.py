@@ -91,5 +91,5 @@ if __name__ == "__main__":
             if possible_value > 1:
                 dp[pos][possible_value] += dp[pos + 1][possible_value - 1]
                 dp[pos][possible_value] %= 1000000007
-    # failed to get this logic
+    # failed to get this logic that i can sum all values at dp[0]
     print(sum(dp[0]) % 1000000007)
