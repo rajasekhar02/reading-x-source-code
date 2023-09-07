@@ -1,5 +1,12 @@
 ## [Course Refered](https://github.com/mike-north/ts-fundamentals-v3)
 
+## TIPS
+
+**TIPS 1**: Using unknown instead of any to prevent from lint errors
+**TIPS 2**: Thinking an Array as Object also helpful in resolving types
+**TIPS 3**: Using Recursion to loop over the types
+**TIPS 4**: Using infer to create type variables
+
 ## TS Files
 
 A good way to think of TS files:

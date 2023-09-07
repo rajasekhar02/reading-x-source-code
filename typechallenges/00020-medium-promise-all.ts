@@ -21,4 +21,6 @@ type Return<Values> = { [K in keyof Values]: PromiseType<Values[K]> }
 
 // TIPS 1: Using unknown instead of any to prevent from lint errors
 // TIPS 2: Thinking an Array as Object also helpful in resolving types
+// TIPS 3: Using Recursion to loop over the types
+// TIPS 4: Using infer to create type variables
 declare function PromiseAll<Values extends readonly unknown[]>(values: readonly [...Values]): Promise<Return<Values>>
