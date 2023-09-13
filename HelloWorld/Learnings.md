@@ -12,6 +12,8 @@
 
 **TIPS 5**: To iterate on string use template literals operator(\`\`)
 
+**TIPS 6**: For string operations use object mapping for transformation
+
 ## TS Files
 
 A good way to think of TS files:
