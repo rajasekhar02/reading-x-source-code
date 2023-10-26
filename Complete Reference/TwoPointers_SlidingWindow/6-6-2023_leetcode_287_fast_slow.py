@@ -1,6 +1,10 @@
 from typing import List
 
-
+"""
+Must Remember things while Implementing:
+1. Fast move 2 steps and slow moves 1 step
+2. After collision fast and slow move 1 step at a time.
+"""
 class Solution:
     """
     Below method works only for array of length n+1 but contains the numbers between within range [1,n]
