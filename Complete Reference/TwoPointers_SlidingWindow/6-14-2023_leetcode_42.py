@@ -1,6 +1,10 @@
 from typing import List
 
-
+"""
+Observations:
+1. Always calculate the area between (maxLeft, Left) and (maxRight, Right)
+2. 
+"""
 class Solution:
     def trap(self, height: List[int]) -> int:
         total_area = 0
