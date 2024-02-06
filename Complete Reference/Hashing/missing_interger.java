@@ -32,7 +32,7 @@ class Solution {
     }
     public int solution(int[] A) {
         // Implement your solution here
-        // Time Complexity: O(n), Space Complexity: O(n) 
+        // Time Complexity: O(n), Space Complexity: 1000001
         boolean[] markNum = new boolean[1000001];
         for(int i=0;i<A.length;i++){
             if(A[i] <= 0){
