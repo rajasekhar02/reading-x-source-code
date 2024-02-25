@@ -41,7 +41,7 @@ class DisjointQuickUnionOptByRank:
         """
         if self.roots[nodeX] == nodeX:
             return nodeX
-        self.roots[nodeX] = self.findRootWithPathCompression(nodeX)
+        self.roots[nodeX] = self.findRootWithPathCompression(self.roots[nodeX])
         return self.roots[nodeX]
 
     def findRootForDSQuickFind(self, nodeX):
@@ -136,6 +136,10 @@ class DisjointQuickUnionOptByRank:
 
     def connected(self, nodeX, nodeY):
         return self.findRoot(nodeX) == self.findRoot(nodeY)
+    def reset(self, nodeX):
+        self.roots[nodeX] = 0
+        self.rank[nodeX] = 0
+        
 
 
 class TestDisjoinQuickUnionOptByRank(unittest.TestCase):
