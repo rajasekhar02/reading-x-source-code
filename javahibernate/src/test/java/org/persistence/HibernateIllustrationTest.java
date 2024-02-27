@@ -1,4 +1,4 @@
-package org.persisitence;
+package org.persistence;
 
 import junit.framework.TestCase;
 
@@ -24,6 +24,7 @@ public class HibernateIllustrationTest extends TestCase {
             sessionFactory =
                     new MetadataSources(registry)
                             .addAnnotatedClass(Event.class)
+                            .addAnnotatedClass(Account.class)
                             .buildMetadata()
                             .buildSessionFactory();
         }
@@ -60,5 +61,19 @@ public class HibernateIllustrationTest extends TestCase {
                                                 println("Event (" + event.getDate() + ") : " + event.getTitle())
                                 )
                 );
+    }
+
+    public void testFormulaUsage(){
+        sessionFactory.inTransaction(session -> {
+            Account account = new Account();
+            account.setId(1L);
+            account.setCredit(5000d);
+            account.setRate(1.25 / 100);
+            session.persist(account);
+        });
+        sessionFactory.inTransaction(session -> {
+            Account account = session.find(Account.class, 1L);
+            assertEquals(62.5d, account.getInterest());
+        });
     }
 }
