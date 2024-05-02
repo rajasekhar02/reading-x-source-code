@@ -8,6 +8,8 @@ import collections
 import heapq
 import math
 
+# In Python, the sort method sorts a list using the Timsort algorithm which is a combination of Merge Sort and Insertion Sort and has O(n) additional space.
+
 # -------------------------------------------------------------------------------------------
 # Usage of zip function
 seq1 = [1,23,4,5]
