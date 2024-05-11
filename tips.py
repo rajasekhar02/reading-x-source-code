@@ -10,6 +10,10 @@ import math
 
 # In Python, the sort method sorts a list using the Timsort algorithm which is a combination of Merge Sort and Insertion Sort and has O(n) additional space.
 
+# assigning infinity value
+# https://stackoverflow.com/questions/24587994/infinite-integer-in-python
+total_cost = float("inf")
+
 # -------------------------------------------------------------------------------------------
 # Usage of zip function
 seq1 = [1,23,4,5]
